@@ -3,7 +3,7 @@ HOST: http://polls.apiblueprint.org/
 
 # Merge-API
 
-Merge-API is a simple API for processing and managing user data for the Merge App Frontend Clients. (mergeapp.io)
+Merge-API is a simple API for processing and managing user data for the Merge App Frontend Clients. (http://mergeapp.io)
 
 Merge is versioned per Semantic Versioning (http://semver.org/)
 
@@ -12,7 +12,7 @@ The current API version is `v0.0.1` and is found at `root/v0/`
 The publication of this document marks `v0.0.1`. All API requests will be prefaced with the major version number. All requests will accept and return `application/json` format. 
 
 
-## TripPlanning: [/trip]
+## TripPlanning: [/tripplanning]
 ### create_trip(user_id, is_driver): [POST]
 + Response 200 (application/json)
 
@@ -25,7 +25,7 @@ The publication of this document marks `v0.0.1`. All API requests will be prefac
 ### get_rejections(user_id): [GET]
 + Response 200 (application/json)
 
-## Matching [/match]
+## Matching [/matching]
 Responsible for pairing trips
 
 ### form_matches(user_id): [POST]
@@ -40,7 +40,7 @@ Responsible for pairing trips
 ### get_cancellations(user_id): [GET]
 + Response 200 (application/json)
 
-## Invitations: [/invitations]
+## Invitations: [/inviting]
 
 ### send_invite(user_id): [POST]
 + Response 200 (application/json)
@@ -48,7 +48,7 @@ Responsible for pairing trips
 ### get_invite_status(user_id): [GET]
 + Response 200 (application/json)
 
-## UserManager: [/user]
+## UserManager: [/usermanaging]
 ### get_users(admin_key): [GET]
 + Response 200 (application/json)
 
@@ -82,7 +82,7 @@ Responsible for pairing trips
 ### set_social_network(user_id, network, network_id): [POST]
 + Response 200 (application/json)
 
-## Scoring: [/Scoring]
+## Scoring: [/scoring]
 ### get_total_score(user_id): [GET]
 + Response 200 (application/json)
 
@@ -113,11 +113,11 @@ Responsible for pairing trips
 ### get_score_history(user_id, date_range_start, date_range_end): [GET]
 + Response 200 (application/json)
 
-## Registration: [/registration]
+## Registration: [/registering]
 ### create_user(): [POST]
 + Response 200 (application/json)
 
-## Authentication: [/authentication]
+## Authentication: [/authenticating]
 ### get_password_hash(user_id): [GET]
 + Response 200 (application/json)
 
