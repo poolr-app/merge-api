@@ -38,7 +38,8 @@ If you don't have a valid API key you will get a 401 response similar to this:
                 "user_id": "$USER_ID",
                 "date_range_start": "$start_date",
                 "date_range_end": "$end_date",
-                "is_driver": false
+                "is_driver": false,
+                "include_cancelled": true
             }
 
 + Response 200 (application/json)
@@ -120,24 +121,6 @@ The second two are demonstrated below.
 ## Matching [/matching]
 Responsible for pairing trips
 
-### form_matches(user_id): [POST]
-+ Request (application/json)
-    + Headers
-
-    + Body
-
-        {
-        }
-
-+ Response 200 (application/json)
-    + Headers
-
-    + Body
-
-        {
-        }
-
-
 ### get_matches(user_id): [GET]
 + Request (application/json)
     + Headers
@@ -145,6 +128,7 @@ Responsible for pairing trips
     + Body
 
         {
+            "user_id":"$USER_ID"
         }
 
 + Response 200 (application/json)
@@ -153,8 +137,47 @@ Responsible for pairing trips
     + Body
 
         {
+            "response": [
+            {
+                "match_id": "$match_id",
+                "included_trips": [
+                    {
+                        "trip_id": "$TRIP_ID" 
+                    },
+                    { 
+                        "trip_id": "$TRIP_ID" 
+                    }
+                ],
+                "match_date": "$MATCH_DATE",
+                "match_cancelled": false
+            },
+            {
+                "match_id": "$match_id",
+                "included_trips": [
+                    {
+                        "trip_id": "$TRIP_ID" 
+                    },
+                    { 
+                        "trip_id": "$TRIP_ID" 
+                    }
+                ],
+                "match_date": "$MATCH_DATE",
+                "match_cancelled": true
+            }],
+            "count": 2
         }
 
+### form_matches(user_id): [POST]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+            "user_id":"$USER_ID"
+        }
+
++ Response 204 (application/json)
 
 ## Cancel Matches [/matching/cancel]
 
@@ -167,14 +190,43 @@ Get the cancellations of a user
     + Body
 
         {
+            "user_id":"$USER_ID"
         }
 
 + Response 200 (application/json)
     + Headers
     
     + Body
+        {
+            "response": [
             {
-            }
+                "match_id": "$match_id",
+                "included_trips": [
+                    {
+                        "trip_id": "$TRIP_ID" 
+                    },
+                    { 
+                        "trip_id": "$TRIP_ID" 
+                    }
+                ],
+                "match_date": "$MATCH_DATE",
+                "match_cancelled": true
+            },
+            {
+                "match_id": "$match_id",
+                "included_trips": [
+                    {
+                        "trip_id": "$TRIP_ID" 
+                    },
+                    { 
+                        "trip_id": "$TRIP_ID" 
+                    }
+                ],
+                "match_date": "$MATCH_DATE",
+                "match_cancelled": true
+            }],
+            "count": 2
+        }
 
 ### cancel_match(user_id, match_id): [POST]
 + Request (application/json)
@@ -183,16 +235,11 @@ Get the cancellations of a user
     + Body
 
         {
+            "user_id":"$USER_ID",
+            "match_id":
         }
 
-+ Response 200 (application/json)
-    + Headers
-
-    + Body
-
-        {
-        }
-
++ Response 204 (application/json)
 
 # TODO:
 The items below this point require further work and will change.
