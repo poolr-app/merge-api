@@ -116,3 +116,135 @@ The second two are demonstrated below.
                 trip_id: "$TRIP_ID"
             }
 
+
+
+
+## Rejections [/trips/reject/{trip_id}]
+
+### reject_trip(user_id, trip_id): [PUT]
+
++ Request (application/json)
+
+  + Headers
+
+    Accept: application/json
+
+  + Body
+
+    {
+      user_id: "$USER_ID", 
+      trip_id: "$TRIP_ID"
+    }
+
++ Response 204 
+
+### get_rejections(user_id): [GET]
++ Response 200 (application/json)
+
+  + Headers
+
+    Accept: application/json
+
+  + Body
+
+## Matching [/matching]
+Responsible for pairing trips
+
+### form_matches(user_id): [POST]
++ Response 200 (application/json)
+
+### get_matches(user_id): [GET]
++ Response 200 (application/json)
+
+### cancel_match(user_id, match_id): [POST]
++ Response 200 (application/json)
+
+### get_cancellations(user_id): [GET]
++ Response 200 (application/json)
+
+## Invitations: [/inviting]
+
+### send_invite(user_id): [POST]
++ Response 200 (application/json)
+
+### get_invite_status(user_id): [GET]
++ Response 200 (application/json)
+
+## UserManager: [/usermanaging]
+### get_users(admin_key): [GET]
++ Response 200 (application/json)
+
+### is_admin(user_id): [GET]
++ Response 200 (application/json)
+
+### get_photo(user_id): [GET]
++ Response 200 (application/json)
+
+### set_photo(user_id, photo_uri): [POST]
++ Response 200 (application/json)
+
+### get_licenses(user_id, is_valid): [GET]
++ Response 200 (application/json)
+
+### add_license(user_id): [POST]
++ Response 200 (application/json)
+
+### get_vehicles(user_id): [GET]
++ Response 200 (application/json)
+
+### add_vehicle(user_id): [POST]
++ Response 200 (application/json)
+
+### remove_vehicle(user_id): [POST]
++ Response 200 (application/json)
+
+### get_social_networks(user_id): [GET]
++ Response 200 (application/json)
+
+### set_social_network(user_id, network, network_id): [POST]
++ Response 200 (application/json)
+
+## Scoring: [/scoring]
+### get_total_score(user_id): [GET]
++ Response 200 (application/json)
+
+### get_punctionality_score(user_id): [GET]
++ Response 200 (application/json)
+
+### get_friendliness_score(user_id): [GET]
++ Response 200 (application/json)
+
+### set_total_score(user_id): [POST]
++ Response 200 (application/json)
+
+### set_punctionality_score(user_id): [POST]
++ Response 200 (application/json)
+
+### set_friendliness_score(user_id): [POST]
++ Response 200 (application/json)
+
+### get_streak(user_id): [GET]
++ Response 200 (application/json)
+
+### set_streak(user_id, streak_value): [POST]
++ Response 200 (application/json)
+
+### set_multiplier(group_id?, multiplier_value): [POST]
++ Response 200 (application/json)
+
+### get_score_history(user_id, date_range_start, date_range_end): [GET]
++ Response 200 (application/json)
+
+## Registration: [/registering]
+### create_user(): [POST]
++ Response 200 (application/json)
+
+## Authentication: [/authenticating]
+### get_password_hash(user_id): [GET]
++ Response 200 (application/json)
+
+### set_password_hash(user_id): [POST]
++ Response 200 (application/json)
+
+### login(user_id, token): [POST]
++ Response 200 (application/json)
