@@ -9,7 +9,7 @@ Merge is versioned per Semantic Versioning (http://semver.org/)
 
 The initial publication of this document marked `v0.0.1`. All API requests will be prefaced with the major version number. All requests will accept and return `application/json` format. 
 
-The current API version is `v0.0.2` and is found at `root/v0/`
+The current API version is `v0.0.3` and is found at `root/v0/`
 
 # Authentication
 
@@ -21,7 +21,7 @@ NOTE: must pass it as you would a standard HTTP AUTHORIZATION header and not a q
 
 If you don't have a valid API key you will get a 401 response similar to this:
 
-    { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+    `{ "error": "unauthenticated", "error_description": "This action requires authentication to continue." }`
 
 *NOTE*: This is not implemented for the current api version.
 
@@ -117,7 +117,85 @@ The second two are demonstrated below.
             }
 
 
+## Matching [/matching]
+Responsible for pairing trips
 
+### form_matches(user_id): [POST]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
++ Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
+
+### get_matches(user_id): [GET]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
++ Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
+
+## Cancel Matches [/matching/cancel]
+
+### Get Cancellations(user_id): [GET]
+Get the cancellations of a user
+
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
++ Response 200 (application/json)
+    + Headers
+    
+    + Body
+            {
+            }
+
+### cancel_match(user_id, match_id): [POST]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
++ Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
+
+# TODO:
+The items below this point require further work and will change.
 
 ## Rejections [/trips/reject/{trip_id}]
 
@@ -139,112 +217,511 @@ The second two are demonstrated below.
 + Response 204 
 
 ### get_rejections(user_id): [GET]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
 
-  + Headers
+    + Body
 
-    Accept: application/json
+        {
+        }
 
-  + Body
-
-## Matching [/matching]
-Responsible for pairing trips
-
-### form_matches(user_id): [POST]
-+ Response 200 (application/json)
-
-### get_matches(user_id): [GET]
-+ Response 200 (application/json)
-
-### cancel_match(user_id, match_id): [POST]
-+ Response 200 (application/json)
-
-### get_cancellations(user_id): [GET]
-+ Response 200 (application/json)
 
 ## Invitations: [/inviting]
 
 ### send_invite(user_id): [POST]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### get_invite_status(user_id): [GET]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ## UserManager: [/usermanaging]
 ### get_users(admin_key): [GET]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### is_admin(user_id): [GET]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### get_photo(user_id): [GET]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### set_photo(user_id, photo_uri): [POST]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### get_licenses(user_id, is_valid): [GET]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### add_license(user_id): [POST]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### get_vehicles(user_id): [GET]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### add_vehicle(user_id): [POST]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### remove_vehicle(user_id): [POST]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### get_social_networks(user_id): [GET]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### set_social_network(user_id, network, network_id): [POST]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ## Scoring: [/scoring]
 ### get_total_score(user_id): [GET]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### get_punctionality_score(user_id): [GET]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### get_friendliness_score(user_id): [GET]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### set_total_score(user_id): [POST]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### set_punctionality_score(user_id): [POST]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### set_friendliness_score(user_id): [POST]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### get_streak(user_id): [GET]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### set_streak(user_id, streak_value): [POST]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### set_multiplier(group_id?, multiplier_value): [POST]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### get_score_history(user_id, date_range_start, date_range_end): [GET]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ## Registration: [/registering]
 ### create_user(): [POST]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ## Authentication: [/authenticating]
 ### get_password_hash(user_id): [GET]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### set_password_hash(user_id): [POST]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 
 ### login(user_id, token): [POST]
++ Request (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
 + Response 200 (application/json)
+    + Headers
+
+    + Body
+
+        {
+        }
+
