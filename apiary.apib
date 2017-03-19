@@ -7,122 +7,114 @@ Merge-API is a simple API for processing and managing user data for the Merge Ap
 
 Merge is versioned per Semantic Versioning (http://semver.org/)
 
-The current API version is `v0.0.1` and is found at `root/v0/`
+The initial publication of this document marked `v0.0.1`. All API requests will be prefaced with the major version number. All requests will accept and return `application/json` format. 
 
-The publication of this document marks `v0.0.1`. All API requests will be prefaced with the major version number. All requests will accept and return `application/json` format. 
+The current API version is `v0.0.2` and is found at `root/v0/`
+
+# Authentication
+
+You will need to authenticate to the API via an API_KEY that is passed through the header.
+NOTE: must pass it as you would a standard HTTP AUTHORIZATION header and not a query parameter; should be in this format for the value:
+
+    Header: Authorization
+    Value: Token token=36a2d087fc0fb8blahblahthisisfake
+
+If you don't have a valid API key you will get a 401 response similar to this:
+
+    { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
+*NOTE*: This is not implemented for the current api version.
+
+## TripPlanning: [/trips]
+### Get Trips: [GET]
+
++ Request (application/json)
+
+  + Headers
+
+  + Body
 
 
-## TripPlanning: [/tripplanning]
-### create_trip(user_id, is_driver): [POST]
+    {
+      "user_id": "$USER_ID",
+      "date_range_start": "$start_date" 
+      "date_range_end": "$end_date"
+      "is_driver": false
+    }
+
 + Response 200 (application/json)
 
-### reject_trip(user_id, trip_id): [POST]
+  + Headers
+
+  + Body
+
+      {
+        "response": [
+         { 
+            "trip_id": {trip_id},
+            "start_timestamp": {start_timestamp},
+            "end_timestamp": {end_timestamp},
+         },
+         { 
+            "trip_id": {trip_id},
+            "start_timestamp": {start_timestamp},
+            "end_timestamp": {end_timestamp},
+         },
+         { 
+            "trip_id": {trip_id},
+            "start_timestamp": {start_timestamp},
+            "end_timestamp": {end_timestamp},
+         }],
+         "count": 3
+      }
+
+### Create Trip: [POST]
+The location requires one of three categories:
+ - The location id number
+ - The location latitude and longitude
+ - The location address details
+The second two are demonstrated below.
+
++ Request (application/json)
+
+    { 
+      "user_id": "$USER_ID",
+      "is_driver": false,
+      "location_start": 
+      {
+        "location_id": ""
+        "lat": "51.5033640",
+        "lon": "-0.1276250",
+        "street_address": "",
+        "city": "",
+        "province": "",
+        "postal_code": "",
+        "unit": "",
+        "country": ""
+      }
+      "location_end":
+      {
+        "location_id": ""
+        "lat": "",
+        "lon": "",
+        "street_address": "1681 152 St",
+        "city": "Surrey",
+        "province": "BC",
+        "postal_code": "V4A 4N3",
+        "unit": "",
+        "country": "canada"
+      }
+    }
+
 + Response 200 (application/json)
 
-### get_trips(user_id, date_range, is_driver): [GET]
-+ Response 200 (application/json)
+  + Headers
 
-### get_rejections(user_id): [GET]
-+ Response 200 (application/json)
+    Accept: application/json
 
-## Matching [/matching]
-Responsible for pairing trips
+  + Body
 
-### form_matches(user_id): [POST]
-+ Response 200 (application/json)
+    {
+      trip_id: "$TRIP_ID"
+    }
 
-### get_matches(user_id): [GET]
-+ Response 200 (application/json)
-
-### cancel_match(user_id, match_id): [POST]
-+ Response 200 (application/json)
-
-### get_cancellations(user_id): [GET]
-+ Response 200 (application/json)
-
-## Invitations: [/inviting]
-
-### send_invite(user_id): [POST]
-+ Response 200 (application/json)
-
-### get_invite_status(user_id): [GET]
-+ Response 200 (application/json)
-
-## UserManager: [/usermanaging]
-### get_users(admin_key): [GET]
-+ Response 200 (application/json)
-
-### is_admin(user_id): [GET]
-+ Response 200 (application/json)
-
-### get_photo(user_id): [GET]
-+ Response 200 (application/json)
-
-### set_photo(user_id, photo_uri): [POST]
-+ Response 200 (application/json)
-
-### get_licenses(user_id, is_valid): [GET]
-+ Response 200 (application/json)
-
-### add_license(user_id): [POST]
-+ Response 200 (application/json)
-
-### get_vehicles(user_id): [GET]
-+ Response 200 (application/json)
-
-### add_vehicle(user_id): [POST]
-+ Response 200 (application/json)
-
-### remove_vehicle(user_id): [POST]
-+ Response 200 (application/json)
-
-### get_social_networks(user_id): [GET]
-+ Response 200 (application/json)
-
-### set_social_network(user_id, network, network_id): [POST]
-+ Response 200 (application/json)
-
-## Scoring: [/scoring]
-### get_total_score(user_id): [GET]
-+ Response 200 (application/json)
-
-### get_punctionality_score(user_id): [GET]
-+ Response 200 (application/json)
-
-### get_friendliness_score(user_id): [GET]
-+ Response 200 (application/json)
-
-### set_total_score(user_id): [POST]
-+ Response 200 (application/json)
-
-### set_punctionality_score(user_id): [POST]
-+ Response 200 (application/json)
-
-### set_friendliness_score(user_id): [POST]
-+ Response 200 (application/json)
-
-### get_streak(user_id): [GET]
-+ Response 200 (application/json)
-
-### set_streak(user_id, streak_value): [POST]
-+ Response 200 (application/json)
-
-### set_multiplier(group_id?, multiplier_value): [POST]
-+ Response 200 (application/json)
-
-### get_score_history(user_id, date_range_start, date_range_end): [GET]
-+ Response 200 (application/json)
-
-## Registration: [/registering]
-### create_user(): [POST]
-+ Response 200 (application/json)
-
-## Authentication: [/authenticating]
-### get_password_hash(user_id): [GET]
-+ Response 200 (application/json)
-
-### set_password_hash(user_id): [POST]
-+ Response 200 (application/json)
-
-### login(user_id, token): [POST]
-+ Response 200 (application/json)
