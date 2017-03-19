@@ -30,91 +30,89 @@ If you don't have a valid API key you will get a 401 response similar to this:
 
 + Request (application/json)
 
-  + Headers
+    + Headers
 
-  + Body
+    + Body
 
-
-    {
-      "user_id": "$USER_ID",
-      "date_range_start": "$start_date" 
-      "date_range_end": "$end_date"
-      "is_driver": false
-    }
+            {
+                "user_id": "$USER_ID",
+                "date_range_start": "$start_date",
+                "date_range_end": "$end_date",
+                "is_driver": false
+            }
 
 + Response 200 (application/json)
 
-  + Headers
+    + Headers
 
-  + Body
+    + Body
 
-      {
-        "response": [
-         { 
-            "trip_id": {trip_id},
-            "start_timestamp": {start_timestamp},
-            "end_timestamp": {end_timestamp},
-         },
-         { 
-            "trip_id": {trip_id},
-            "start_timestamp": {start_timestamp},
-            "end_timestamp": {end_timestamp},
-         },
-         { 
-            "trip_id": {trip_id},
-            "start_timestamp": {start_timestamp},
-            "end_timestamp": {end_timestamp},
-         }],
-         "count": 3
-      }
+            {
+                "response": [
+                { 
+                    "trip_id": {trip_id},
+                    "start_timestamp": {start_timestamp},
+                    "end_timestamp": {end_timestamp},
+                },
+                { 
+                    "trip_id": {trip_id},
+                    "start_timestamp": {start_timestamp},
+                    "end_timestamp": {end_timestamp},
+                },
+                { 
+                    "trip_id": {trip_id},
+                    "start_timestamp": {start_timestamp},
+                    "end_timestamp": {end_timestamp},
+                }],
+                "count": 3
+            }
 
 ### Create Trip: [POST]
 The location requires one of three categories:
- - The location id number
- - The location latitude and longitude
- - The location address details
+- The location id number
+- The location latitude and longitude
+- The location address details
+
 The second two are demonstrated below.
 
 + Request (application/json)
 
-    { 
-      "user_id": "$USER_ID",
-      "is_driver": false,
-      "location_start": 
-      {
-        "location_id": ""
-        "lat": "51.5033640",
-        "lon": "-0.1276250",
-        "street_address": "",
-        "city": "",
-        "province": "",
-        "postal_code": "",
-        "unit": "",
-        "country": ""
-      }
-      "location_end":
-      {
-        "location_id": ""
-        "lat": "",
-        "lon": "",
-        "street_address": "1681 152 St",
-        "city": "Surrey",
-        "province": "BC",
-        "postal_code": "V4A 4N3",
-        "unit": "",
-        "country": "canada"
-      }
-    }
+            { 
+                "user_id": "$USER_ID",
+                "is_driver": false,
+                "location_start": 
+                {
+                    "location_id": "",
+                    "lat": "51.5033640",
+                    "lon": "-0.1276250",
+                    "street_address": "",
+                    "city": "",
+                    "province": "",
+                    "postal_code": "",
+                    "unit": "",
+                    "country": ""
+                }
+                "location_end":
+                {
+                    "location_id": "",
+                    "lat": "",
+                    "lon": "",
+                    "street_address": "1681 152 St",
+                    "city": "Surrey",
+                    "province": "BC",
+                    "postal_code": "V4A 4N3",
+                    "unit": "",
+                    "country": "canada"
+                }
+            }
 
 + Response 200 (application/json)
 
-  + Headers
+    + Headers
 
-    Accept: application/json
+    + Body
 
-  + Body
-
-    {
-      trip_id: "$TRIP_ID"
-    }
+            {
+                trip_id: "$TRIP_ID"
+            }
 
