@@ -1,3 +1,31 @@
+## Rejections [/trips/reject/{trip_id}]
+
+### reject_trip(user_id, trip_id): [PUT]
+
++ Request (application/json)
+
+  + Headers
+
+    Accept: application/json
+
+  + Body
+
+    {
+      user_id: "$USER_ID", 
+      trip_id: "$TRIP_ID"
+    }
+
++ Response 204 
+
+### get_rejections(user_id): [GET]
++ Response 200 (application/json)
+
+  + Headers
+
+    Accept: application/json
+
+  + Body
+
 ## Matching [/matching]
 Responsible for pairing trips
 
