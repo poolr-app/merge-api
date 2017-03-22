@@ -9,7 +9,7 @@ Merge is versioned per Semantic Versioning (http://semver.org/)
 
 The initial publication of this document marked `v0.0.1`. All API requests will be prefaced with the major version number. All requests will accept and return `application/json` format. 
 
-The current API version is `v0.0.4` and is found at `root/v0/`
+The current API version is `v0.0.5` and is found at `root/v0/`. The current version will always be able to be found at root/.
 
 # Authentication
 
@@ -40,17 +40,6 @@ If you don't have a valid API key you will get a 401 response similar to this:
                 "include_cancelled": true
             }
 
-+ Response 401 (application/json)
-
-
-    + Body
-
-            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
-
-+ Response 500
-
-    + Body
-
 + Response 200 (application/json)
 
     + Body
@@ -74,6 +63,17 @@ If you don't have a valid API key you will get a 401 response similar to this:
                 }],
                 "count": 3
             }
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+    + Body
 
 ### Create Trip: [POST]
 The location requires one of three categories:
@@ -114,17 +114,6 @@ The second two are demonstrated below.
                 }
             }
 
-+ Response 401 (application/json)
-
-
-    + Body
-
-            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
-
-+ Response 500
-
-    + Body
-
 + Response 200 (application/json)
 
     + Body
@@ -134,17 +123,6 @@ The second two are demonstrated below.
             }
 
 
-## Matching [/matching]
-Responsible for pairing trips
-
-### get_matches(user_id): [GET]
-+ Request (application/json)
-    + Body
-
-            {
-            "user_id":"1234567"
-            }
-
 + Response 401 (application/json)
 
 
@@ -155,6 +133,17 @@ Responsible for pairing trips
 + Response 500
 
     + Body
+
+## Matching [/matching]
+Responsible for pairing trips
+
+### get_matches(user_id): [GET]
++ Request (application/json)
+    + Body
+
+            {
+                "user_id":"1234567"
+            }
 
 + Response 200 (application/json)
     + Body
@@ -190,14 +179,6 @@ Responsible for pairing trips
             "count": 2
             }
 
-### form_matches(user_id): [POST]
-+ Request (application/json)
-    + Body
-
-            {
-            "user_id":"1234567"
-            }
-
 + Response 401 (application/json)
 
 
@@ -209,7 +190,26 @@ Responsible for pairing trips
 
     + Body
 
+### form_matches(user_id): [POST]
++ Request (application/json)
+    + Body
+
+            {
+            "user_id":"1234567"
+            }
+
 + Response 204 (application/json)
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+    + Body
 
 ## Cancel Matches [/matching/cancel]
 
@@ -222,17 +222,6 @@ Get the cancellations of a user
             {
             "user_id":"1234567"
             }
-
-+ Response 401 (application/json)
-
-
-    + Body
-
-            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
-
-+ Response 500
-
-    + Body
 
 + Response 200 (application/json)
     
@@ -269,15 +258,6 @@ Get the cancellations of a user
             "count": 2
             }
 
-### cancel_match(user_id, match_id): [POST]
-+ Request (application/json)
-    + Body
-
-            {
-            "user_id":"1234567",
-            "match_id":"12344"
-            }
-
 + Response 401 (application/json)
 
 
@@ -289,7 +269,27 @@ Get the cancellations of a user
 
     + Body
 
+### cancel_match(user_id, match_id): [POST]
++ Request (application/json)
+    + Body
+
+            {
+            "user_id":"1234567",
+            "match_id":"12344"
+            }
+
 + Response 204 (application/json)
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+    + Body
 
 # TODO:
 The items below this point require further work and will change.
@@ -309,6 +309,8 @@ The items below this point require further work and will change.
                 trip_id: "87629"
             }
 
++ Response 204 
+
 + Response 401 (application/json)
 
 
@@ -319,8 +321,6 @@ The items below this point require further work and will change.
 + Response 500
 
     + Body
-
-+ Response 204 
 
 ### get_rejections(user_id): [GET]
 + Request (application/json)
@@ -329,6 +329,13 @@ The items below this point require further work and will change.
             {
             }
 
++ Response 200 (application/json)
+    + Body
+
+            {
+            }
+
+
 + Response 401 (application/json)
 
 
@@ -339,13 +346,6 @@ The items below this point require further work and will change.
 + Response 500
 
     + Body
-
-+ Response 200 (application/json)
-    + Body
-
-            {
-            }
-
 
 ## Invitations: [/inviting]
 
