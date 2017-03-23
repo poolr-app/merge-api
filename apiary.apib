@@ -9,7 +9,7 @@ Merge is versioned per Semantic Versioning (http://semver.org/)
 
 The initial publication of this document marked `v0.0.1`. All API requests will be prefaced with the major version number. All requests will accept and return `application/json` format. 
 
-The current API version is `v0.0.5` and is found at `root/v0/`. The current version will always be able to be found at root/.
+The current API version is `v0.0.6` and is found at `root/v0/`. The current version will always be able to be found at root/.
 
 # Authentication
 
@@ -25,15 +25,22 @@ If you don't have a valid API key you will get a 401 response similar to this:
 
 *NOTE*: This is not implemented for the current api version.
 
-## TripPlanning: [/trips]
+## TripPlanning: [/trips/{user_id}]{?range_size}
+
++ Parameters
+
+    + user_id : 0 (number) - a unique identifier for a user
+
+    + range_size: (number, optional) - the size of the range to return in days
+        + Default: 7
 ### Get Trips: [GET]
 
+TODO: Place all get as query params
 + Request (application/json)
 
     + Body
 
             {
-                "user_id": "1234567",
                 "date_range_start": "1489968000",
                 "date_range_end": "1499968000",
                 "is_driver": false,
@@ -86,7 +93,6 @@ The second two are demonstrated below.
 + Request (application/json)
 
             { 
-                "user_id": "1234567",
                 "is_driver": false,
                 "location_start": 
                 {
@@ -137,13 +143,11 @@ The second two are demonstrated below.
 ## Matching [/matching]
 Responsible for pairing trips
 
-### get_matches(user_id): [GET]
-+ Request (application/json)
-    + Body
+### Get all Matches [GET]
 
-            {
-                "user_id":"1234567"
-            }
+TODO: Paginate
+
++ Request (application/json)
 
 + Response 200 (application/json)
     + Body
@@ -195,7 +199,7 @@ Responsible for pairing trips
     + Body
 
             {
-            "user_id":"1234567"
+                "user_id":"1234567"
             }
 
 + Response 204 (application/json)
@@ -211,48 +215,45 @@ Responsible for pairing trips
 
     + Body
 
-## Cancel Matches [/matching/cancel]
 
-### Get Cancellations(user_id): [GET]
-Get the cancellations of a user
+## Matching [/matching/{user_id}]
 
++ Parameters
+
+    + user_id : 0 (number) - a unique identifier for a user
+
+### Get User Matches: [GET]
 + Request (application/json)
-    + Body
-
-            {
-            "user_id":"1234567"
-            }
 
 + Response 200 (application/json)
-    
     + Body
 
             {
             "response": [
             {
-                "match_id": "23434",
+                "match_id": "12344",
                 "included_trips": [
                     {
-                        "trip_id": "23456" 
+                        "trip_id": "5467"
                     },
                     { 
-                        "trip_id": "23455" 
+                        "trip_id": "5468" 
                     }
                 ],
-                "match_date": "1490168700",
-                "match_cancelled": true
+                "match_date": "1491092700",
+                "match_cancelled": false
             },
             {
-                "match_id": "23892",
+                "match_id": "98762",
                 "included_trips": [
                     {
-                        "trip_id": "23333" 
+                        "trip_id": "65822" 
                     },
                     { 
-                        "trip_id": "23345" 
+                        "trip_id": "76529" 
                     }
                 ],
-                "match_date": "1490167700",
+                "match_date": "1491232700",
                 "match_cancelled": true
             }],
             "count": 2
@@ -269,13 +270,69 @@ Get the cancellations of a user
 
     + Body
 
-### cancel_match(user_id, match_id): [POST]
+## Cancel Matches [/matching/cancel/{user_id}]
+
++ Parameters
+    
+    + user_id : 0 (number) - a unique identifier for a user
+
+### Get User Cancellations: [GET]
+Get the cancellations of a user
+
++ Request (application/json)
+
++ Response 200 (application/json)
+    
+    + Body
+
+            {
+                "response": [
+                {
+                    "match_id": "23434",
+                    "included_trips": [
+                        {
+                            "trip_id": "23456" 
+                        },
+                        { 
+                            "trip_id": "23455" 
+                        }
+                    ],
+                    "match_date": "1490168700",
+                    "match_cancelled": true
+                },
+                {
+                    "match_id": "23892",
+                    "included_trips": [
+                        {
+                            "trip_id": "23333" 
+                        },
+                        { 
+                            "trip_id": "23345" 
+                        }
+                    ],
+                    "match_date": "1490167700",
+                    "match_cancelled": true
+                }],
+                "count": 2
+            }
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+    + Body
+
+### Cancel User's Match: [POST]
 + Request (application/json)
     + Body
 
             {
-            "user_id":"1234567",
-            "match_id":"12344"
+                "match_id":"12344"
             }
 
 + Response 204 (application/json)
@@ -291,8 +348,571 @@ Get the cancellations of a user
 
     + Body
 
-# TODO:
+## Invitations: [/invite]
+
+Invites have an invitation status, one of pending, sent, accepted, expired
+
+### Get all Invites [GET]
+
++ Request (application/json)
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "response": [
+                { 
+                    "invite_id" : "98293",
+                    "invite_status" : "pending",
+                    "invite_user" : "23424"
+                },
+                { 
+                    "invite_id" : "98293",
+                    "invite_status" : "pending",
+                    "invite_user" : "23424"
+                }]
+                "count" : 2
+            }
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+    + Body
+
+
+### Create Invite: [POST]
++ Request (application/json)
+    + Body
+
+            {
+                "user_id": "123456"
+            }
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "invite_id" : "98293",
+                "invite_status" : "pending"
+            }
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+    + Body
+
+## Invites: [/invite/{invite_id}]
+
++ Paramaters
+    + invite_id: 1 (number) The unique identifier of the invite
+
+### get_invite_status(user_id): [GET]
++ Request (application/json)
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "invite_user" : "1234582"
+                "invite_status" : "sent"
+            }
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+    + Body
+
+
+### Cancel Invite [POST]
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "invite_id" : "123824"
+            }
+
++ Response 204 (application/json)
+
++ Response 401 (application/json)
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+    + Body
+
+
+## UserManager: [/user]
+
+
+Users may have one of many permission levels. It will be one of the following: `{"Global Admin" : 0, "Organisation Admin" : 1, "Branch Admin" : 2, "User" : 3 }`
+Note: Global Admin is reserved for Poolr use only.
+
+### Get All Users: [GET]
++ Request (application/json)
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "response": [
+                { 
+                    "user_id": "76543",
+                    "join_timestamp": "1491032700",
+                    "last_logon_timestamp": "1491042700",
+                    "permission_level" : 3,
+                    "email" : "bobby@fakeyfakefake.com",
+                    "password_hash" : "hash_value".
+                    "photo_uri" : "s3_bucket_link",
+                    "fun_fact" : "I am a mystical being from another plane",
+                    "licenses" : [],
+                    "vehicles" : [],
+                    "social_networks" : []
+                },
+                { 
+                    "user_id": "76544",
+                    "join_timestamp": "1491032700",
+                    "last_logon_timestamp": "1491042700",
+                    "permission_level" : 3,
+                    "email" : "bobby@fakeyfakefake.com",
+                    "password_hash" : "hash_value".
+                    "photo_uri" : "s3_bucket_link",
+                    "fun_fact" : "I am a mystical being from another plane",
+                    "licenses" : [],
+                    "vehicles" : [],
+                    "social_networks" : []
+                },
+                { 
+                    "user_id": "76545",
+                    "join_timestamp": "1491032700",
+                    "last_logon_timestamp": "1491042700",
+                    "permission_level" : 3,
+                    "email" : "bobby@fakeyfakefake.com",
+                    "password_hash" : "hash_value".
+                    "photo_uri" : "s3_bucket_link",
+                    "fun_fact" : "I am a mystical being from another plane",
+                    "licenses" : [],
+                    "vehicles" : [],
+                    "social_networks" : []
+                },
+                { 
+                    "user_id": "76546",
+                    "join_timestamp": "1491032700",
+                    "last_logon_timestamp": "1491042700",
+                    "permission_level" : 3,
+                    "email" : "bobby@fakeyfakefake.com",
+                    "password_hash" : "hash_value".
+                    "photo_uri" : "s3_bucket_link",
+                    "fun_fact" : "I am a mystical being from another plane",
+                    "licenses" : [],
+                    "vehicles" : [],
+                    "social_networks" : []
+                },
+                { 
+                    "user_id": "76547",
+                    "join_timestamp": "1491032700",
+                    "last_logon_timestamp": "1491042700",
+                    "permission_level" : 3,
+                    "email" : "bobby@fakeyfakefake.com",
+                    "password_hash" : "hash_value".
+                    "photo_uri" : "s3_bucket_link",
+                    "fun_fact" : "I am a mystical being from another plane",
+                    "licenses" : [],
+                    "vehicles" : [],
+                    "social_networks" : []
+                }],
+                "count": 5
+            }
+
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+    + Body
+
+
+## User Details [/user/{user_id}]
+
++ Parameters
+    + user_id : 1 (number) The unique identifier of a user
+
+### Get user [GET]
+
++ Request (application/json)
+
++ Response 200 (application/json)
+    + Body
+
+            { 
+                "user_id": "76547",
+                "join_timestamp": "1491032700",
+                "last_logon_timestamp": "1491042700",
+                "permission_level" : 3,
+                "email" : "bobby@fakeyfakefake.com",
+                "password_hash" : "hash_value".
+                "photo_uri" : "s3_bucket_link",
+                "fun_fact" : "I am a mystical being from another plane",
+                "licenses" : [],
+                "vehicles" : [],
+                "social_networks" : []
+            }
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+    + Body
+
+## User Admin Details [/user/{user_id}/perm]
+
++ Parameters
+    + user_id : 1 (number) The unique identifier of a user
+
+### Get Permission Level: [GET]
++ Request (application/json)
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "permission_level" : "2"
+            }
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+    + Body
+
+### Set Permission Level: [POST]
++ Request (application/json)
+    + Body
+
+            {
+                "permission_level" : "2"
+            }
+
++ Response 204 (application/json)
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+## User Photo Details [/user/{user_id}/photo]
+
++ Parameters
+    + user_id : 1 (number) The unique identifier of a user
+
+### get_photo(user_id): [GET]
++ Request (application/json)
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "photo_uri" : "s3_bucket_link"
+            }
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+    + Body
+
+### Set Photo: [POST]
++ Request (application/json)
+    
+    + Body
+
+            {
+                "photo_uri" : "s3_bucket_link"
+            }
+
++ Response 204 (application/json)
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+## User Document Details [/user/{user_id}/doc]
+
++ Parameters
+    + user_id : 1 (number) The unique identifier of a user
+
+### Get Documents: [GET]
++ Request (application/json)
+    + Body
+
+            {
+                "response" : [
+                ],
+                "count" : 0
+            }
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+    + Body
+
++ Response 200 (application/json)
+    + Body
+
+            {
+            }
+
+
+### Create Document: [POST]
++ Request (application/json)
+    + Body
+
+            {
+            }
+
++ Response 204 (application/json)
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+    + Body
+
+## User Document Details [/user/{user_id}/doc/{doc_id}]
+
++ Parameters
+    + user_id : 1 (number) The unique identifier of a user
+    + doc_id : 1 (number) The unique identifier of a document
+
+### Get Document [GET]
++ Request (application/json)
+
++ Response 200 (application/json)
+    + Body
+
+            {
+            }
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+    + Body
+
+
+
+## User Vehicles Details [/user/{user_id}/vehicle]
+
++ Parameters
+    + user_id : 1 (number) The unique identifier of a user
+
+### Get Vehicles: [GET]
++ Request (application/json)
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "response" : [
+                ],
+                "count" : 0
+            }
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+### Create Vehicle: [POST]
++ Request (application/json)
+    + Body
+
+            {
+            }
+
++ Response 204 (application/json)
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+    + Body
+
+## User Vehicle Details [/user/{user_id}/vehicle/{vehicle_id}]
+
++ Parameters
+    + user_id : 1 (number) The unique identifier of a user
+    + vehicle_id : 1 (number) The unique identifier of a vehicle
+
+### Get Vehicle [GET]
++ Request (application/json)
+
++ Response 200 (application/json)
+    + Body
+
+            {
+            }
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+    + Body
+
+
+### remove_vehicle(user_id): [DELETE]
++ Request (application/json)
+
++ Response 204 (application/json)
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+
+
+
+============================================================
+TODO:
 The items below this point require further work and will change.
+============================================================
+
+
+
+### get_social_networks(user_id): [GET]
++ Request (application/json)
+    + Body
+
+            {
+            }
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+    + Body
+
++ Response 200 (application/json)
+    + Body
+
+            {
+            }
+
+
+### set_social_network(user_id, network, network_id): [POST]
++ Request (application/json)
+    + Body
+
+            {
+            }
+
++ Response 401 (application/json)
+
+
+    + Body
+
+            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
+
++ Response 500
+
+    + Body
+
++ Response 200 (application/json)
+    + Body
+
+            {
+            }
 
 ## Rejections [/trips/reject/{trip_id}]
 
@@ -347,332 +967,7 @@ The items below this point require further work and will change.
 
     + Body
 
-## Invitations: [/inviting]
 
-### send_invite(user_id): [POST]
-+ Request (application/json)
-    + Body
-
-            {
-            }
-
-+ Response 401 (application/json)
-
-
-    + Body
-
-            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
-
-+ Response 500
-
-    + Body
-
-+ Response 200 (application/json)
-    + Body
-
-            {
-            }
-
-
-### get_invite_status(user_id): [GET]
-+ Request (application/json)
-    + Body
-
-            {
-            }
-
-+ Response 401 (application/json)
-
-
-    + Body
-
-            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
-
-+ Response 500
-
-    + Body
-
-+ Response 200 (application/json)
-    + Body
-
-            {
-            }
-
-
-## UserManager: [/usermanaging]
-### get_users(admin_key): [GET]
-+ Request (application/json)
-    + Body
-
-            {
-            }
-
-+ Response 401 (application/json)
-
-
-    + Body
-
-            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
-
-+ Response 500
-
-    + Body
-
-+ Response 200 (application/json)
-    + Body
-
-            {
-            }
-
-
-### is_admin(user_id): [GET]
-+ Request (application/json)
-    + Body
-
-            {
-            }
-
-+ Response 401 (application/json)
-
-
-    + Body
-
-            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
-
-+ Response 500
-
-    + Body
-
-+ Response 200 (application/json)
-    + Body
-
-            {
-            }
-
-
-### get_photo(user_id): [GET]
-+ Request (application/json)
-    + Body
-
-            {
-            }
-
-+ Response 401 (application/json)
-
-
-    + Body
-
-            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
-
-+ Response 500
-
-    + Body
-
-+ Response 200 (application/json)
-    + Body
-
-            {
-            }
-
-
-### set_photo(user_id, photo_uri): [POST]
-+ Request (application/json)
-    + Body
-
-            {
-            }
-
-+ Response 401 (application/json)
-
-
-    + Body
-
-            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
-
-+ Response 500
-
-    + Body
-
-+ Response 200 (application/json)
-    + Body
-
-            {
-            }
-
-
-### get_licenses(user_id, is_valid): [GET]
-+ Request (application/json)
-    + Body
-
-            {
-            }
-
-+ Response 401 (application/json)
-
-
-    + Body
-
-            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
-
-+ Response 500
-
-    + Body
-
-+ Response 200 (application/json)
-    + Body
-
-            {
-            }
-
-
-### add_license(user_id): [POST]
-+ Request (application/json)
-    + Body
-
-            {
-            }
-
-+ Response 401 (application/json)
-
-
-    + Body
-
-            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
-
-+ Response 500
-
-    + Body
-
-+ Response 200 (application/json)
-    + Body
-
-            {
-            }
-
-
-### get_vehicles(user_id): [GET]
-+ Request (application/json)
-    + Body
-
-            {
-            }
-
-+ Response 401 (application/json)
-
-
-    + Body
-
-            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
-
-+ Response 500
-
-    + Body
-
-+ Response 200 (application/json)
-    + Body
-
-            {
-            }
-
-
-### add_vehicle(user_id): [POST]
-+ Request (application/json)
-    + Body
-
-            {
-            }
-
-+ Response 401 (application/json)
-
-
-    + Body
-
-            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
-
-+ Response 500
-
-    + Body
-
-+ Response 200 (application/json)
-    + Body
-
-            {
-            }
-
-
-### remove_vehicle(user_id): [POST]
-+ Request (application/json)
-    + Body
-
-            {
-            }
-
-+ Response 401 (application/json)
-
-
-    + Body
-
-            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
-
-+ Response 500
-
-    + Body
-
-+ Response 200 (application/json)
-    + Body
-
-            {
-            }
-
-
-### get_social_networks(user_id): [GET]
-+ Request (application/json)
-    + Body
-
-            {
-            }
-
-+ Response 401 (application/json)
-
-
-    + Body
-
-            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
-
-+ Response 500
-
-    + Body
-
-+ Response 200 (application/json)
-    + Body
-
-            {
-            }
-
-
-### set_social_network(user_id, network, network_id): [POST]
-+ Request (application/json)
-    + Body
-
-            {
-            }
-
-+ Response 401 (application/json)
-
-
-    + Body
-
-            { "error": "unauthenticated", "error_description": "This action requires authentication to continue." }
-
-+ Response 500
-
-    + Body
-
-+ Response 200 (application/json)
-    + Body
-
-            {
-            }
 
 
 ## Scoring: [/scoring]
