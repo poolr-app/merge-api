@@ -858,15 +858,17 @@ Note: Global Admin is reserved for Poolr use only.
 
 
 
-============================================================
-TODO:
-The items below this point require further work and will change.
-============================================================
+## Social Networks [/user/{user_id}/network]
 
++ Parameters
+
+    + user_id : 0 (number) - a unique identifier for a user
 
 
 ### get_social_networks(user_id): [GET]
 + Request (application/json)
+
++ Response 200 (application/json)
     + Body
 
             {
@@ -882,13 +884,6 @@ The items below this point require further work and will change.
 + Response 500
 
     + Body
-
-+ Response 200 (application/json)
-    + Body
-
-            {
-            }
-
 
 ### set_social_network(user_id, network, network_id): [POST]
 + Request (application/json)
@@ -897,6 +892,8 @@ The items below this point require further work and will change.
             {
             }
 
++ Response 204 (application/json)
+
 + Response 401 (application/json)
 
 
@@ -908,11 +905,6 @@ The items below this point require further work and will change.
 
     + Body
 
-+ Response 200 (application/json)
-    + Body
-
-            {
-            }
 
 ## Rejections [/trips/reject/{trip_id}]
 
