@@ -1,8 +1,12 @@
+require 'grape'
+
 module Merge
     class Hello < Grape::API
         format :json
-        get '/hello' do
-            { hello: 'Hello World' }
+        @route = '/hello'
+        get @route do
+            { hello: 'Hello World from Grape' }
         end
+        
     end
 end

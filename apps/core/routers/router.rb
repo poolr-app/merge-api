@@ -13,7 +13,7 @@ class Router
 
     private
 
-    def not_found(msg = "Not Found")
+    def not_found(msg = "Not Found Anywhere!")
         [404, { "Content-Type" => 'text/plain' }, [msg]]
     end
 end
